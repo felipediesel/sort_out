@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 module SortOut
   module Helpers
     def sortable(column, title = nil, options = {})

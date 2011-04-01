@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 require 'active_record'
 
 require 'sort_out/helpers'
