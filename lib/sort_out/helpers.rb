@@ -8,8 +8,12 @@ module SortOut
       direction = nil
       if column.to_s == params[:sort] || (options[:default] and params[:sort].blank?)
         if params[:direction].blank?
-          direction = "desc"
-          title << '▼'
+          if options[:default].to_s == 'desc' and params[:sort].blank?
+            title << '▲'
+          else
+            direction = "desc"
+            title << '▼'
+          end
         else
           title << '▲'
         end
@@ -26,3 +30,4 @@ module SortOut
     end
   end
 end
+
