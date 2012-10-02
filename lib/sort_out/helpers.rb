@@ -2,8 +2,7 @@
 module SortOut
   module Helpers
     def sortable(column, title = nil, options = {})
-      default_options = { default: false, direction: true }
-      options = default_options.merge(options) unless options.nil?
+      options.reverse_merge! default: false, direction: true, params: {}
       title ||= column.titleize
       direction = nil
       if column.to_s == params[:sort] || (options[:default] and params[:sort].blank?)
@@ -19,7 +18,7 @@ module SortOut
         end
       end
       #▴ ▾ ▼ ▲
-      link_to title, params.merge({ sort: column, direction: direction})
+      link_to title, params.merge({ sort: column, direction: direction }.merge(options[:params]))
     end
 
     def sortable_fields
