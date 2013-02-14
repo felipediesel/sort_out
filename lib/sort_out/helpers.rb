@@ -5,9 +5,9 @@ module SortOut
       options.reverse_merge! default: false, direction: true, params: {}
       title ||= column.titleize
       direction = nil
-      if column.to_s == params[:sort] || (options[:default] and params[:sort].blank?)
-        if params[:direction].blank?
-          if options[:default].to_s == 'desc' and params[:sort].blank?
+      if column.to_s == SortOut.sort || (options[:default] and SortOut.sort.blank?)
+        if SortOut.direction.blank?
+          if options[:default].to_s == 'desc' and SortOut.sort.blank?
             title << '▲' if options[:direction]
           else
             direction = "desc"
@@ -23,24 +23,24 @@ module SortOut
 
     def sortable_fields
       html = "".html_safe
-      html << hidden_field_tag(:sort, params[:sort]) if params[:sort].present?
-      html << hidden_field_tag(:direction, params[:direction]) if params[:direction].present?
+      html << hidden_field_tag(:sort, SortOut.sort) if SortOut.sort.present?
+      html << hidden_field_tag(:direction, SortOut.direction) if SortOut.direction.present?
       html
     end
 
     def sortable_current(columns, default, options)
       options.reverse_merge! model_name: controller_name.singularize
 
-      column = if params[:sort].present? and columns.include? params[:sort].to_sym
-        params[:sort].to_sym
+      column = if SortOut.sort.present? and columns.include? SortOut.sort.to_sym
+        SortOut.sort.to_sym
       else
         default.first
       end
 
       title = tl("#{options[:model_name]}.#{column.to_s}")
 
-      if params[:direction].blank?
-        if default[1].to_s == 'desc' and params[:sort].blank?
+      if SortOut.direction.blank?
+        if default[1].to_s == 'desc' and SortOut.sort.blank?
           title << '▲'
         else
           title << '▼'

@@ -7,7 +7,12 @@ module SortOut
       @sortable_options[:by] << @sortable_options[:default_column][0]
     end
 
-    def sort_out(column, direction)
+    def sort_out(column, direction = nil)
+      if column.is_a? Hash
+        direction = column[:direction]
+        column = column[:sort]
+      end
+      
       sort_column = sortable_column(column).to_s.downcase
       sort_column << sortable_direction(column, direction)
 
