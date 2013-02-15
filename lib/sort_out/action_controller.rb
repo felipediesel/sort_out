@@ -4,8 +4,6 @@ module SortOut
 
       base.instance_eval do
         extend ClassMethods
-
-        before_filter :get_sort_and_direction
       end
     end
 
@@ -19,7 +17,14 @@ module SortOut
           end
         end
 
-        before_filter :store_sortable_before_filter
+        before_filter :get_sort_and_direction, only: [ :index ]
+        before_filter :store_sortable_before_filter, only: [ :index ]
+      end
+
+      def set_localize_sortable(*actions)
+        skip_before_filter :get_sort_and_direction, :store_sortable_before_filter
+        before_filter :get_sort_and_direction, only: actions.flatten
+        before_filter :store_sortable_before_filter, only: actions.flatten
       end
     end
 
